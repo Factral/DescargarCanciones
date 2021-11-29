@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Herramienta que permite descargar canciones con su metadata de forma gratuita">
+    <link rel='icon' type='image/png' href='imgs/favicon.png'/>
+    <title>Buscador De Canciones</title>
+    <link href="main.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+    <div id="title">
+      <h1>Buscar Canciones</h1>
+    </div>
+
+    <div id="busqueda">
+      <input type="text" id="Buscador" placeholder="Get Lucky - Daft Punk" spellcheck="false" />
+      <img src="imgs/iconMusic.svg" width="24px" height="24px" />
+      </div>
+    </div>
+
+    <div id="explicacion">
+      <span>Busca el nombre de alguna cancion o pon el link de la playlist</span>
+    </div>
+
+    <div id="results">
+      <div class="loader hidden"></div>
+    </div>
+
+  <footer id="footer">
+    <p>Hecho por Factral 💙
+      <a class="contact-link" href="https://github.com/Factral" aria-label="ver codigo fuente">
+        <svg  width="26" height="26" viewBox="0 0 62 60">
+          <path fill="#000" d="M31 0a30.7 30.7 0 0 0-9.8 59.9c1.55.3 2.116-.6 2.116-1.4s-.026-2.7-.042-5.3c-8.622 1.9-10.44-4.1-10.44-4.1-1.414-3.5-3.448-4.5-3.448-4.5-2.815-1.9.213-1.9.213-1.9a6.74 6.74 0 0 1 4.746 3.2c2.766 4.7 7.254 3.3 9.023 2.6a6.3 6.3 0 0 1 1.966-4.1c-6.88-.8-14.12-3.5-14.12-15.2a11.964 11.964 0 0 1 3.193-8.3 10.9 10.9 0 0 1 .3-8.1s2.6-.9 8.525 3.1a30.617 30.617 0 0 1 15.522 0c5.92-4 8.517-3.1 8.517-3.1a10.886 10.886 0 0 1 .308 8.1 11.946 11.946 0 0 1 3.186 8.3c0 11.8-7.248 14.4-14.155 15.1a7.52 7.52 0 0 1 2.1 5.7c0 4.1-.04 7.5-.04 8.5 0 .8.56 1.7 2.13 1.4A30.708 30.708 0 0 0 31 0"></path></svg>
+        </a>
+    </p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/Stuk/jszip/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/Stuk/jszip-utils/dist/jszip-utils.min.js"></script>
+  <script src="main.js"></script>
+  </body>
+
+</html>
