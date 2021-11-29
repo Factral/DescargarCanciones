@@ -8,3 +8,7 @@ Hay dos modos de uso, uno es buscar por el nombre de la cancion y descargarla in
 
 ## vista previa
 ![](https://i.imgur.com/kM3Xi5Y.png)
+
+## Como esta hecho
+
+el sitio estatico esta hecho con html, javascript y css, el backend esta hecho con python y flask, el sitio esta en un servidor de github pages, el backend esta en un servidor de heroku.
