@@ -1,0 +1,234 @@
+html {	
+    position: relative;	
+    min-height: 100%;	
+}
+
+body{
+    font-family: sans-serif;
+    font-size: clamp( 0.75rem, 2.5vw, 1rem);
+    line-height: 1.5;
+    color: #212529;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    margin-bottom: 100px;
+}
+
+#title{
+    font-size: 1rem;
+    text-align: center;
+}
+
+#title h1 {
+    display: inline-block;
+    font-size: 2.2em;
+    line-height: 60px;
+    font-family: sans-serif,cursive;
+    margin: 10px 0 20px;
+    text-align: center;
+    margin-top: 6rem;
+}
+
+#busqueda{
+    position: relative;
+    width: 682px;
+    margin-top: 1.5rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#busqueda img{
+    position: absolute;
+    bottom: 8.5px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+}
+
+#Buscador{
+    width: 100%;
+    background-color: #e5e5e5;
+    padding: 9px 12px;
+    font-size: 15px;
+    line-height: 1.42857143;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+}
+
+#explicacion{
+    width: 682px;
+    margin-right: auto;
+    margin-left: auto;
+    font-weight: 400;
+    font-size: max(12px,clamp(0.65rem, 1.5vw, 0.875rem));
+    font-family: Manrope,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,sans-serif
+}
+
+#descarga{
+    display: block;
+    text-align: center;
+    padding-top: .2rem;
+}
+
+#error{
+    text-align: center;
+    padding-top: 3rem;
+}
+
+img{
+    width: 55px;
+}
+
+table{
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    border-color: #dee2e6;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+tbody, td, tfoot, th, tr {
+    text-align: left;
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0px;
+}
+
+thead{
+    border-color: black;
+}
+
+tr{
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+table>:not(caption)>*>* {
+    padding: .5rem .5rem;
+    border-bottom-width: 1px;
+}
+
+tbody img{
+    border-radius:8%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+tbody #external_link{
+    position: relative;
+    display:block;
+    cursor: pointer;
+    height: 55px;
+    width: 55px;
+}
+
+tbody #external_link::before{
+    background: url('./imgs/play_song.png') no-repeat;
+    background-size: 100% 100%;
+    content: '';
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    transition: opacity 0.3s;
+    width: 100%;
+    border-radius: 5%;
+    z-index: 5;
+}
+
+tbody tr:hover  #external_link:before{
+    opacity: 0.8;
+}
+
+.songName{
+    max-width: 300px;
+}
+
+.song:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+a.disabled {
+    pointer-events: none !important;
+    cursor: default;
+    color:Gray;
+}
+
+#footer {
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    font-weight: 600;
+}
+
+.contact-link {
+    margin-left: 5px;
+    vertical-align: sub;  
+}
+
+@media only screen and (max-width: 750px){
+    #busqueda{
+        width: 90%;
+    }
+    #explicacion{
+        width: 90%;
+    }
+    .image-upload span{
+        display: none;
+    }
+}
+
+/* spinner */
+
+.loader, .loader:after {
+    border-radius: 50%;
+    width: 10em;
+    height: 10em;
+}
+
+.hidden{
+    display: none;
+}
+  
+.loader {
+    margin: 60px auto;
+    font-size: 6px;
+    position: relative;
+    border-top: 1.1em solid rgba(0,0,0, 0.2);
+    border-right: 1.1em solid rgba(0,0,0, 0.2);
+    border-bottom: 1.1em solid rgba(0,0,0, 0.2);
+    border-left: 1.1em solid #000000;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: load8 1.1s infinite linear;
+    animation: load8 1.1s infinite linear;
+}
+
+@-webkit-keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+    }
+    @keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
