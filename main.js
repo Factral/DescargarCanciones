@@ -163,27 +163,42 @@ input.addEventListener('keyup', debounce(() => {
             content.id = 'error'
             content.innerText = 'no se encontro la cancion :('
             resultados.prepend(content)
-          } else {
-            // si la tabla no existe la crea
+          }
+          else {
+
             if (!document.getElementById('tabla')) {
               creartabla(false)
             }
+ 
             // crea la linea para la cancion
             const tbodyRef = document.getElementById('tabla').getElementsByTagName('tbody')[0]
             tbodyRef.innerHTML = ''
+
+            if(input.value.startsWith('https://www.youtube.com')){
+              const newRow = tbodyRef.insertRow()
+              newRow.setAttribute('class', `song 1`)
+              newRow.innerHTML += `
+              <td>1</td>
+              <td><a id="external_link" href="${song.external_link}" target="_blank"><img loading="lazy" src="${song.cover}" class="cover"></a></td>
+              <td class="songName">${song.nombre}</td>
+              <td>${song.artista}</td>
+              <td><a class="generateLink" value='${song.uri}' href='*-*'>Descarga</a></td>`
+            }
+            else{  
 
             Object.entries(song).forEach(([position, track]) => {
               const newRow = tbodyRef.insertRow()
               newRow.setAttribute('class', `song ${Number(position) + 1}`)
 
               newRow.innerHTML += `
-        <td>${Number(position) + 1}</td>
-        <td><a id="external_link" href="${track.external_link}" target="_blank"><img loading="lazy" src="${track.cover}" class="cover"></a></td>
-        <td class="songName">${track.nombre}</td>
-        <td>${track.artista}</td>
-        <td><a class="generateLink" value='${track.uri}' href='*-*'>Descarga</a></td>`
+              <td>${Number(position) + 1}</td>
+              <td><a id="external_link" href="${track.external_link}" target="_blank"><img loading="lazy" src="${track.cover}" class="cover"></a></td>
+              <td class="songName">${track.nombre}</td>
+              <td>${track.artista}</td>
+              <td><a class="generateLink" value='${track.uri}' href='*-*'>Descarga</a></td>`
             })
           }
+        }
           spinner.classList.add('hidden')
         })
     }
