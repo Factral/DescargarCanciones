@@ -34,25 +34,23 @@ def create_link_download_song(data):
         'outtmpl': '%(id)s.%(ext)s'
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(f'https://www.youtube.com/watch?v={data["song"]["video_id"]}', download=True)
+        info = ydl.extract_info(f'https://www.youtube.com/watch?v={data["video_id"]}', download=True)
         filename = ydl.prepare_filename(info).replace('m4a', 'mp3').replace('webm', 'mp3')
 
     audiofile = eyed3.load(filename)
     if audiofile.tag is None:
         audiofile.initTag()
 
-    covername = data['metadata']['cover'].split('/')[-1]
-    urllib.request.urlretrieve(data['metadata']['cover'], covername)
+    urllib.request.urlretrieve(data["metadata"]["cover"], data["video_id"])
 
-    audiofile.tag.images.set(ImageFrame.FRONT_COVER, open(covername, 'rb').read(), 'image/jpeg')
-    audiofile.tag.images.set(3, open(covername, 'rb').read(), 'image/jpeg')
+    audiofile.tag.images.set(ImageFrame.FRONT_COVER, open(data["video_id"], 'rb').read(), 'image/jpeg')
+    audiofile.tag.images.set(3, open(data["video_id"], 'rb').read(), 'image/jpeg')
     audiofile.tag.title = data['metadata']['name']
     audiofile.tag.artist = data['metadata']['artist']
     audiofile.tag.album = data['metadata']['album']
-    audiofile.tag.release_date = data['metadata']['release_date']
     audiofile.tag.save(version=eyed3.id3.ID3_V2_3)
 
-    os.remove(covername)
+    os.remove(data["video_id"])
     data["link"] = "https://buscar-canciones.herokuapp.com/v1/file/{}".format(filename)
     data["tamaño"] = "{} mb".format(round(os.path.getsize(filename) / (1024 * 1024), 2))
 
@@ -77,20 +75,33 @@ def songg():
         return jsonify({"detail": "Error"}), 400
     print(f"nombreCancion: {nombreCancion}")
 
-    spotify_song = spotify.track(nombreCancion)
-    youtube_song = VideosSearch(spotify_song['name'] + " " + spotify_song['artists'][0]['name'], limit=1).result()
-
-    data = {
-        "song": {"video_id": youtube_song['result'][0]['id'], "format": "mp3"},
+    if nombreCancion.startswith("spotify:track:"):
+        print(nombreCancion,"hola")
+        spotify_song = spotify.track(nombreCancion)
+        youtube_song = VideosSearch(spotify_song['name'] + " " + spotify_song['artists'][0]['name'], limit=1).result()
+        data = {
+        "video_id": youtube_song['result'][0]['id'], "format": "mp3",
         "metadata": {"name": spotify_song['name'], "release_date": spotify_song['album']['release_date'],
                      "artist": spotify_song['artists'][0]['name'], "album": spotify_song['album']['name'],
                      "genre": f"N/A", "number": 0,
-                     "cover": spotify_song['album']['images'][0]['url'], "time": spotify_song['duration_ms']},
-    }
+                     "cover": spotify_song['album']['images'][0]['url'], "time": spotify_song['duration_ms'],
+                     'external_link': spotify_song['external_urls']['spotify']},
+        }
+    else:
+        youtube_song = VideosSearch(nombreCancion, limit=1).result()
+        data = {
+        "video_id": youtube_song['result'][0]['id'], "format": "mp3",
+        "metadata": {"name": youtube_song['result'][0]['title'], "release_date": youtube_song['result'][0]['publishedTime'],
+                     "artist": youtube_song['result'][0]['channel']['name'], "album": "N/A",
+                     "genre": f"N/A", "number": 0,
+                     "cover": f'https://i.ytimg.com/vi/{youtube_song["result"][0]["id"]}/hq720.jpg', "time": youtube_song['result'][0]['duration'],
+                     "external_link": f"https://www.youtube.com/watch?v={youtube_song['result'][0]['id']}"},
+        }
+
+    if youtube_song is None:
+        return jsonify({"detail": "Error"}), 400
 
     finaldata = create_link_download_song(data)
-    finaldata.update({'external_link': spotify_song['external_urls']['spotify']})
-
     return jsonify(finaldata)
 
 
