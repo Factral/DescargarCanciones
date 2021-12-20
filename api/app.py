@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, jsonify, request, send_file, after_this_request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 import spotipy
@@ -12,6 +12,8 @@ from eyed3.id3.frames import ImageFrame
 import time
 import subprocess
 import os
+import zipfile
+import random
 
 os.chdir('static')
 app = Flask(__name__)
@@ -175,6 +177,25 @@ def main4():
         if file.endswith(".mp3") and time.time() - modified_time > 420:
             os.remove(f'{file}')
     return jsonify({'files': files}), 200
+
+@app.route('/v1/zip', methods=['POST'])
+def main3():
+    data = request.get_json()
+    if data is None or type(data.get('songs')) is not list:
+        return jsonify({"detail": "Error"}), 400
+
+    random_string = ('%06x' % random.randrange(16**6)).upper()
+    with zipfile.ZipFile(f'{random_string}.zip', 'w') as zip:
+        for song in data['songs']:
+            zip.write(f'{song}.mp3', compress_type=zipfile.ZIP_DEFLATED)
+
+    @after_this_request
+    def remove_file(response):
+        os.remove(f'{random_string}.zip')
+        return response
+        
+    return send_file(f"./static/{random_string}.zip", mimetype="application/zip", as_attachment=True,
+                        download_name=f'canciones.zip')
 
 
 @socketio.on('message')
