@@ -81,31 +81,23 @@ function organizarCanciones (song, size) {
 }
 
 function generarzip () {
-  const zip = new JSZip()
-  const carpeta = zip.folder('canciones')
-
-  let count = 0
-
-  urls.forEach((url) => {
-    JSZipUtils.getBinaryContent(url.link, (err, dataCancion) => {
-      if (err) {
-        throw err
-      }
-      carpeta.file(`${url.nombre}.mp3`, dataCancion, { binary: true })
-      count += 1
-
-      if (count === urls.length) {
-        zip.generateAsync({ type: 'blob' }).then((content) => {
-          const linkZip = URL.createObjectURL(content)
-          document.getElementById('descarga').href = linkZip
-          document.getElementById('descarga').download = 'canciones.zip'
-          document.getElementById('descarga').innerText = 'Completado'
-          document.getElementById('descarga').className = 'disabled'
-          document.getElementById('descarga').click()
-        })
-      }
-    })
-  })
+  song_names = urls.map(url => url.nombre)
+  fetch('https://buscar-canciones.herokuapp.com/v1/zip', {
+    body: JSON.stringify({"songs":song_names}),
+    method: 'POST',
+    headers: {'Content-Type': 'application/json; charset=utf-8'},
+})
+.then(response => response.blob())
+.then(response => {
+    const blob = new Blob([response], {type: 'application/zip'});
+    const downloadUrl = URL.createObjectURL(blob);
+    descarga = document.getElementById('descarga')
+    descarga.href = downloadUrl;
+    descarga.download = 'canciones.zip'
+    descarga.innerText = 'Completado'
+    descarga.className = 'disabled'
+    descarga.click()
+})
 }
 
 input.addEventListener('keyup', debounce(() => {
